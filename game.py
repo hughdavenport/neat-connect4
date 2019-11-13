@@ -61,8 +61,8 @@ class ConnectFour:
         if len(state) < _ROWS * _COLUMNS * 2 + 1:
             raise ValueError("state array not large enough, expected {}, got {}".format(_ROWS * _COLUMNS * 2 + 1, len(state)))
         ret = ConnectFour()
-        ret._board = state[0:(_ROWS * _COLUMNS * 2)]
-        ret._turn = True if state[(_ROWS * _COLUMNS * 2) + 1] == 1.0 else False
+        ret._board = state[:(_ROWS * _COLUMNS * 2)]
+        ret._turn = True if state[_ROWS * _COLUMNS * 2] == 1.0 else False
 
         return ret
 
