@@ -4,7 +4,7 @@ from agents import RandomAgent
 
 class OpponentTracker(BaseReporter):
 
-    def __init__(self, reset_number=100):
+    def __init__(self, reset_number=10):
         self._generations = 0
         self._best_net = None
         self._best_fitness = None

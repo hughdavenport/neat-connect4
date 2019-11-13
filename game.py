@@ -1,32 +1,5 @@
 import random
 
-_lines = [
-    [1, 1, 1,
-     0, 0, 0,
-     0, 0, 0],
-    [1, 0, 0,
-     0, 1, 0,
-     0, 0, 1],
-    [1, 0, 0,
-     1, 0, 0,
-     1, 0, 0],
-    [0, 1, 0,
-     0, 1, 0,
-     0, 1, 0],
-    [0, 0, 1,
-     0, 1, 0,
-     1, 0, 0],
-    [0, 0, 1,
-     0, 0, 1,
-     0, 0, 1],
-    [0, 0, 0,
-     1, 1, 1,
-     0, 0, 0],
-    [0, 0, 0,
-     0, 0, 0,
-     1, 1, 1]
-]
-
 _RED  = 'r'
 _BLUE = 'b'
 
@@ -134,11 +107,11 @@ class ConnectFour:
                     return player
                 if row + 3 < _ROWS and all([square == player for square in board[(column * _ROWS + row):(column * _ROWS + (row + 3) + 1)]]):
                     return player
-                if column - 3 >= 0 and row - 3 >= 0 and all([board[index] == player for index in range(column - 3 * _ROWS + row - 3, column * _ROWS + row + 1, _ROWS + 1)]):
+                if column - 3 >= 0 and row - 3 >= 0 and all([board[index] == player for index in range((column - 3) * _ROWS + row - 3, column * _ROWS + row + 1, _ROWS + 1)]):
                     return player
-                if column - 3 >= 0 and row + 3 < _ROWS and all([board[index] == player for index in range(column - 3 * _ROWS + row, column * _ROWS + row + 3 + 1, _ROWS - 1)]):
+                if column - 3 >= 0 and row + 3 < _ROWS and all([board[index] == player for index in range((column - 3) * _ROWS + row + 3, column * _ROWS + row + 1, _ROWS - 1)]):
                     return player
-                if column + 3 < _COLUMNS and row - 3 >= 0 and all([board[index] == player for index in range(column * _ROWS + row - 3, (column + 3) * _ROWS + row + 1, _ROWS - 1)]):
+                if column + 3 < _COLUMNS and row - 3 >= 0 and all([board[index] == player for index in range(column * _ROWS + row, (column + 3) * _ROWS + row - 3 + 1, _ROWS - 1)]):
                     return player
                 if column + 3 < _COLUMNS and row + 3 < _ROWS and all([board[index] == player for index in range(column * _ROWS + row, (column + 3) * _ROWS + row + 3 + 1, _ROWS + 1)]):
                     return player
