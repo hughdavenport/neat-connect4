@@ -7,8 +7,8 @@ from game import ConnectFour
 import agents
 import trackers
 
-NUMBER_TO_SAMPLE = 1000
-NUMBER_ILLEGAL_MOVES_ALLOWED = 10
+NUMBER_TO_SAMPLE = 50
+NUMBER_ILLEGAL_MOVES_ALLOWED = 1
 
 debug = False
 
