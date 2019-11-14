@@ -7,6 +7,8 @@ from game import ConnectFour
 import agents
 import trackers
 
+import visualize
+
 NUMBER_TO_SAMPLE = 100
 NUMBER_ILLEGAL_MOVES_ALLOWED = 1
 
@@ -127,7 +129,14 @@ def run(config_file):
         pe = neat.ParallelEvaluator(4, eval_genome)
         winner = p.run(pe.evaluate)
 
-    # TODO visulize, save
+    print('\nBest genome:\n{!s}'.format(winner))
+
+    print("Saving as winner-genome-{}.pkl".format(winner.fitness))
+    with open('winner-genome-{}.pkl'.format(winner.fitness), 'wb') as output:
+        pickle.dump(winner, output, 1)
+
+    visualize.plot_stats(stats, ylog=False, view=True)
+    visualize.plot_species(stats, view=True)
 
 if __name__ == '__main__':
     # Determine path to configuration file. This path manipulation is

@@ -1,10 +1,11 @@
 from neat.reporting import BaseReporter
 from neat.nn import FeedForwardNetwork
 from agents import RandomAgent
+import pickle       # pip install cloudpickle
 
 class OpponentTracker(BaseReporter):
 
-    def __init__(self, reset_number=10):
+    def __init__(self, reset_number=10, save_opponents=True):
         self._generations = 0
         self._best_net = None
         self._best_fitness = None
@@ -12,6 +13,7 @@ class OpponentTracker(BaseReporter):
         self._current_opponent = RandomAgent()
         self._last_fitness = None
         self._best_ever = None
+        self._save_opponents = save_opponents
 
     def post_evaluate(self, config, population, species, best_genome):
         if self._best_net is None or best_genome.fitness > self._best_fitness:
@@ -35,6 +37,10 @@ class OpponentTracker(BaseReporter):
                 self._last_fitness = self._best_fitness
                 self._best_fitness = None
                 self._best_net = None
+                if self._save_opponents:
+                    with open('opponent-net-{}.pkl'.format(self._last_fitness), 'wb') as output:
+                        pickle.dump(self._current_opponent, output, 1)
+
             self._generations = 0
 
     @property
