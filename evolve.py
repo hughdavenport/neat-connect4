@@ -2,6 +2,7 @@ from __future__ import print_function
 import neat
 import pickle       # pip install cloudpickle
 import os
+import sys
 
 from game import ConnectFour
 import agents
@@ -101,23 +102,25 @@ def eval_genomes(genomes, config):
     for genome_id, genome in genomes:
         genome.fitness = eval_genome(genome, config)
 
-def run(config_file):
+def run(config_file, restore_file=None):
     # Load configuration.
     config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                          neat.DefaultSpeciesSet, neat.DefaultStagnation,
                          config_file)
 
     # Create the population, which is the top-level object for a NEAT run.
-    p = neat.Population(config)
-
-    # TODO restart from checkpoint
-    # neat.Checkpointer.restore_checkpoint(filename)
+    p = None
+    if restore_file is None:
+        p = neat.Population(config)
+    else:
+        p = neat.Checkpointer.restore_checkpoint(restore_file)
+        # TODO can we get checkpoint to store current opponent as well
 
     # Add a stdout reporter to show progress in the terminal.
     p.add_reporter(neat.StdOutReporter(False))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
-    p.add_reporter(neat.Checkpointer(generation_interval=100, time_interval_seconds=None))
+    p.add_reporter(neat.Checkpointer(generation_interval=10, time_interval_seconds=None))
 
     p.add_reporter(opponent_tracker)
 
@@ -143,10 +146,12 @@ if __name__ == '__main__':
     # here so that the script will run successfully regardless of the
     # current working directory.
 
-    # TODO parse sysargs
-
     # TODO have human/replay mode
 
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config-feedforward')
-    run(config_path)
+    # TODO parse sysargs properly
+    if len(sys.argv) >= 2:
+        run(config_path, sys.argv[1])
+    else:
+        run(config_path)
