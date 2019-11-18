@@ -90,7 +90,7 @@ class ConnectFour:
         return self.getWinner() is not None or self.isDraw()
 
     def isDraw(self):
-        return self._board.count(1.0) == _ROWS * _COLUMNS * 2
+        return self._board.count(1.0) == _ROWS * _COLUMNS
 
     def getWinner(self):
         board = self.board()
