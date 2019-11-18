@@ -10,9 +10,9 @@ from utilities import pickMove, pickAndMakeMove
 
 game = ConnectFour()
 if len(sys.argv) >= 2:
-    print("Using opponent from {}" % sys.argv[1])
+    print("Using opponent from {}".format(sys.argv[1]))
     with open(sys.argv[1], 'rb') as output:
-        opponent = pickle.load(f)
+        opponent = pickle.load(output)
 else:
     print("Using random agent")
     opponent = agents.RandomAgent()
