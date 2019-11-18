@@ -9,7 +9,7 @@ import agents
 from utilities import pickMove, pickAndMakeMove
 
 game = ConnectFour()
-if sys.argv > 2:
+if len(sys.argv) > 2:
     with open(sys.argv[1], 'rb') as output:
         opponent = pickle.load(f)
 else:
@@ -19,16 +19,15 @@ while not game.isFinished():
     if game.isOurTurn():
         print(game)
         possibles = game.possibleMoves()
-        column = input("Which column {}?".format(possibles))
+        column = input("Which column {}? ".format(possibles))
         try:
-            game.playMove(column)
-        except e:
+            game.playMove(int(column))
+        except Exception as e:
             print("error occurred", e)
     else:
-        column = pickMove(opponent, state)
         try:
             pickAndMakeMove(game, opponent)
-        except e:
+        except Exception:
             print("AI chose invalid move, trying random")
             pickAndMakeMove(game, agents.RandomAgent())
-    print(game)
+print(game)
