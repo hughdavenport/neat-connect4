@@ -10,6 +10,8 @@ import trackers
 
 import visualize
 
+from utilities import pickMove, pickAndMakeMove
+
 NUMBER_TO_SAMPLE = 100
 NUMBER_ILLEGAL_MOVES_ALLOWED = 1
 
@@ -17,19 +19,11 @@ debug = False
 
 opponent_tracker = trackers.OpponentTracker()
 
-def pickMove(agent, state):
-    output = agent.activate(state)
-    return sorted(range(len(output)), key=lambda x: output[x])[-1]
-
-def pickAndMakeMove(game, agent):
-    state = game.state()
-    index = pickMove(agent, state)
-    game.playMove(index)
-
 def simulateGame(player, opponent):
     # Returns fitness delta
     game = ConnectFour()
     illegal_moves = 0
+    random_moves_left = 3
     while not game.isFinished():
 
         # TODO track stats?
@@ -48,15 +42,23 @@ def simulateGame(player, opponent):
             if game.isFinished():
                 break
 
-            try:
-                pickAndMakeMove(game, opponent)
-            except IndexError:
+            if random_moves_left > 0:
                 pickAndMakeMove(game, agents.RandomAgent())
+                random_moves_left -= 1
+            else:
+                try:
+                    pickAndMakeMove(game, opponent)
+                except IndexError:
+                    pickAndMakeMove(game, agents.RandomAgent())
         else: # Not our turn
-            try:
-                pickAndMakeMove(game, opponent)
-            except IndexError:
+            if random_moves_left > 0:
                 pickAndMakeMove(game, agents.RandomAgent())
+                random_moves_left -= 1
+            else:
+                try:
+                    pickAndMakeMove(game, opponent)
+                except IndexError:
+                    pickAndMakeMove(game, agents.RandomAgent())
 
             if game.isFinished():
                 break
