@@ -9,7 +9,7 @@ import agents
 from utilities import pickMove, pickAndMakeMove
 
 game = ConnectFour()
-if len(sys.argv) > 2:
+if len(sys.argv) >= 2:
     print("Using opponent from {}" % sys.argv[1])
     with open(sys.argv[1], 'rb') as output:
         opponent = pickle.load(f)
